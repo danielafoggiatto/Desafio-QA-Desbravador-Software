@@ -1,0 +1,37 @@
+export const Locators = {
+  login: {
+    username: '#email',
+    password: '#password',
+    loginBtn: 'button[type="submit"]',
+  },
+  home: {
+    productsTitle: 'text=Products',
+    userLogged: (user: string) => `text=${user}`,
+    productsContainer: '.products',
+    productItem: '.products .flex',
+    addToCartBtn: 'button:has-text("Add to cart")',
+    sampleShoeName: 'Sample Shoe Name',
+  },
+  cart: {
+    cartButton: 'span[role="button"]',
+    emptyCart: 'text=Your cart is empty.',
+    cartTitle: 'text=Your Cart',
+    sampleShirtName: 'text=Sample Shirt Name',
+    sampleShoeName: 'text=Sample Shoe Name',
+    cartListItem: '.cart-list .flex',
+    removeBtn: 'button:has-text("Remove")',
+    confirmDialog: 'text=Are you absolutely sure?',
+    confirmRemoveBtn: '[role="dialog"] .bg-red-500',
+    quantitySpan: 'span.border',
+    increaseBtn: 'button',
+    decreaseBtn: 'button',
+  },
+  checkout: {
+    checkoutBtn: 'button:has-text("Checkout")',
+    firstNameInput: 'input[placeholder="Ex. John"]',
+    lastNameInput: 'input[placeholder="Ex. Doe"]',
+    continueBtn: 'button:has-text("Continue")',
+    finishBtn: 'button:has-text("Finish")',
+    successMessage: 'text=Thank you for your order!',
+  },
+};
