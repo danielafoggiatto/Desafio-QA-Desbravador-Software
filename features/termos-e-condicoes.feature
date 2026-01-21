@@ -1,14 +1,20 @@
-Scenario: Bloquear continuação sem aceitar termos e condições
-    Background:
-        Given que estou no site de reservas do hotel 1111
-        And selecionei datas e hóspedes
+@critical @ui
+Feature: Termos e condições - Continuar Reserva
 
-    Scenario: Bloquear continuação sem aceitar os termos e condições
-        When tento continuar sem aceitar os termos
-        Then devo ver a mensagem de que é necessário aceitar os termos
-        And não devo conseguir avançar
+  Background:
+    Given que informo o período de "01/02/2026" até "03/02/2026"
+    And seleciono 2 adultos na busca inicial
+    And clico em "Continuar Reserva"
+    And seleciono o quarto "STANDARD ST1"
+    And clico em "Comprar"
+    And clico em "Pagar"
 
-    Scenario: Permitir continuação ao aceitar os termos e condições
-        When aceito os termos e condições
-        And tento continuar a reserva
-        Then devo conseguir avançar para a próxima etapa
+  Scenario: Bloquear continuação sem aceitar os termos e condições
+    When tento continuar a reserva sem aceitar os termos
+    Then devo ver a mensagem "Para continar sua reserva, você deve aceitar os termos e condições do hotel."
+    And não devo ver o resumo da hospedagem
+
+  Scenario: Permitir continuação ao aceitar os termos e condições
+    When aceito os termos e condições
+    And tento continuar a reserva
+    Then devo ver o resumo da hospedagem com o nome "Daniela Foggiatto"

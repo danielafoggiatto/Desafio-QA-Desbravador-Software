@@ -6,6 +6,7 @@ module.exports = {
       'support/world.ts'
     ],
     requireModule: ['ts-node/register'],
+    paths: ['features/**/*.feature'],
     format: ['html:reports/cucumber-report.html'],
     publishQuiet: true
   }
