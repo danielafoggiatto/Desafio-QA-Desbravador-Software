@@ -25,7 +25,7 @@ Demonstrar competências em QA que vão além da automação, incluindo:
 
 ---
 
-## 🧪 Estratégia adotada
+## 🧪 Estratégia Adotada
 
 ### 📌 Importante
 > **Nem todos os cenários foram automatizados propositalmente.**
@@ -33,22 +33,9 @@ Demonstrar competências em QA que vão além da automação, incluindo:
 A automação foi aplicada **somente ao fluxo de maior valor e complexidade**:  
 ➡️ **Reserva Completa (E2E)**
 
-Os demais arquivos `.feature` funcionam como:
-
-- **Fixtures de teste**
-- **Documentação funcional**
-- **Base para testes manuais**
-- **Referência para futuras automações**
-
-Essa decisão considera:
-- instabilidades do ambiente
-- comportamento inconsistente de alguns componentes de UI
-- custo vs benefício da automação
-- boas práticas de QA em produtos reais
-
 ---
 
-## 🧠 Critérios de escolha dos cenários (por criticidade)
+## 🧠 Critérios de Escolha dos Cenários (por criticidade)
 
 ### 🔴 1. Regras de hóspedes (adulto obrigatório)
 Uma reserva não pode existir sem ao menos um adulto.
@@ -58,18 +45,18 @@ Cenários documentam:
 - ajuste automático para 1 adulto
 - permissão correta de avanço
 
-📄 `hospedes.feature`
+📄 **`hospedes.feature`**
 
 ---
 
 ### 🔴 2. Capacidade máxima dos quartos
-Os quartos possuem regras de ocupação mínima e máxima (minpax / maxpax), identificadas no HTML, mas não claramente expostas ao usuário.
+Os quartos possuem regras de ocupação mínima e máxima (**minpax / maxpax**), identificadas no HTML, mas não claramente expostas ao usuário.
 
 Cenários validam:
 - avanço indevido ao exceder capacidade
 - riscos operacionais e de cobrança
 
-📄 `capacidade-quarto.feature`
+📄 **`capacidade-quarto.feature`**
 
 ---
 
@@ -80,7 +67,7 @@ Cenários garantem:
 - coerência entre busca, acomodação e resumo
 - prevenção de inconsistências visuais e lógicas
 
-📄 `consistencia-hospedes.feature`
+📄 **`consistencia-hospedes.feature`**
 
 ---
 
@@ -92,8 +79,8 @@ Cenários cobrem:
 - mensagens de erro
 - login e cadastro
 
-📄 `login.feature`  
-📄 `cadastro.feature`
+📄 **`login.feature`**  
+📄 **`cadastro.feature`**
 
 ---
 
@@ -105,20 +92,20 @@ Cenários documentam:
 - validações de pagamento
 - reCAPTCHA
 
-📄 `pagamento.feature`
+📄 **`pagamento.feature`**
 
 ---
 
 ### 🟡 6. Validação de período da reserva
-Cenários voltados à integridade das datas e UX do calendário.
+Cenários voltados à integridade das datas e à experiência do usuário no calendário.
 
-📄 `validacao_periodo_reserva.feature`
+📄 **`validacao_periodo_reserva.feature`**
 
 ---
 
 ## 🚀 Automação Implementada (E2E)
 
-### ✅ Fluxo automatizado
+### ✅ Fluxo Automatizado
 
 A automação foi aplicada **exclusivamente** ao fluxo:
 
@@ -154,76 +141,59 @@ Trata-se de um **E2E realista**, com:
 
 ---
 
-## 📂 Estrutura do Projeto
-
-
-TESTES-DESBRAVADOR
-├── features                  # Cenários BDD (fixtures / documentação)
-│   ├── cadastro.feature
-│   ├── login.feature
-│   ├── hospedes.feature
-│   ├── capacidade-quarto.feature
-│   ├── consistencia-hospedes.feature
-│   ├── validacao_periodo_reserva.feature
-│   ├── pagamento.feature
-│   └── reserva-completa.feature   # ✅ Automatizado (E2E)
-├── steps                     # Steps do Cucumber
-├── pages                     # Page Objects (POM)
-├── support                   # Hooks, world, locators
-├── reports                   # Relatórios
-├── melhorias-sugeridas.md    # Pontos de melhoria / UX
-└── README.md
-
-📋 Melhorias Identificadas
+## 📋 Melhorias Identificadas
 
 As oportunidades de melhoria encontradas durante os testes estão documentadas em:
 
-📄 melhorias-sugeridas.md
+📄 **`melhorias-sugeridas.md`**
 
 Incluem:
+- UX
+- mensagens de erro
+- consistência de dados
+- regras não explícitas
+- comportamento inesperado de componentes
 
-UX
+---
 
-mensagens de erro
+## ▶️ Como Executar
 
-consistência de dados
-
-regras não explícitas
-
-comportamento inesperado de componentes
-
-▶️ Como Executar
-
-Instalar dependências:
+### Instalar dependências
 
 npm install
 
-
-Executar automação E2E:
+### Executar automação E2E
 
 npx cucumber-js --tags @e2e
 
+### Abrir relatório
 
-Abrir relatório:
+reports/cucumber-report.html ou GitHubPages
 
-reports/cucumber-report.html
 
-✅ Considerações Finais
+### ✅ Considerações Finais
 
 Este projeto reflete uma atuação de QA focada em:
 
-entendimento do produto
+-entendimento do produto
 
-visão crítica de negócio
+-visão crítica de negócio
 
-qualidade acima de quantidade
+-qualidade acima de quantidade
 
-automação com propósito
+-automação com propósito
 
-documentação clara e reutilizável
+-documentação clara e reutilizável
 
 A automação foi usada como ferramenta, não como fim.
 
+
 Obrigado pela oportunidade 🚀
 
-```text
+### ⚠️ Observação sobre CI
+
+Atualmente o GitHub Actions pode não executar devido a um bloqueio administrativo temporário relacionado a billing / authorization hold do GitHub Copilot Free.
+Os testes podem ser executados normalmente em ambiente local, conforme instruções acima.
+
+
+```bash
