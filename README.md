@@ -1,297 +1,229 @@
-Perfeito — sua estrutura está **excelente** e bem acima do esperado para um teste técnico 👏
-Vou te entregar um **README.md profissional**, claro, organizado e que valoriza muito o seu raciocínio como QA.
-
-Você pode copiar e colar direto no `README.md`.
-
----
-
-````md
 # Testes Automatizados – Desafio QA | Desbravador Software
 
-Este repositório contém a implementação do **teste técnico prático de QA**, com foco na validação do fluxo de reservas online do sistema da Desbravador Software.
+Este repositório contém a implementação do **teste técnico prático de QA**, com foco na validação do fluxo de reservas online do sistema da **Desbravador Software**.
 
-O objetivo principal deste projeto é demonstrar habilidades em:
-- Análise de requisitos
-- Criação de cenários de teste em **BDD (Gherkin)**
-- Identificação de cenários críticos
-- Automação de testes utilizando **Playwright + Cucumber**
-- Organização de testes com **Page Object Model (POM)**
-- Visão crítica de **qualidade, usabilidade e experiência do usuário**
+O projeto foi desenvolvido com uma abordagem **realista de Qualidade de Software**, priorizando:
+- análise funcional
+- entendimento das regras de negócio
+- identificação de riscos
+- documentação clara em BDD
+- automação apenas onde há ganho real de valor
+
+---
+
+## 🎯 Objetivo do Projeto
+
+Demonstrar competências em QA que vão além da automação, incluindo:
+
+- Escrita de cenários em **BDD (Gherkin)** como documentação viva
+- Identificação de **regras implícitas** no sistema
+- Priorização de cenários por **criticidade**
+- Automação **E2E** de um fluxo completo e representativo
+- Uso de **Playwright + Cucumber + TypeScript**
+- Organização em **Page Object Model (POM)**
+- Visão crítica de **UX e usabilidade**
 
 ---
 
-## 🧪 Escopo do Teste
+## 🧪 Estratégia adotada
 
-O fluxo testado contempla:
+### 📌 Importante
+> **Nem todos os cenários foram automatizados propositalmente.**
 
-- Seleção de período de reserva
-- Regras de hóspedes (adultos, crianças e free)
-- Seleção de quartos e tarifas
-- Validação de capacidade dos quartos
-- Consistência de informações exibidas ao usuário
-- Login e cadastro de usuário
-- Aceite de termos e condições
-- Tentativa de finalização da reserva
-- Registro de melhorias de usabilidade identificadas durante os testes
+A automação foi aplicada **somente ao fluxo de maior valor e complexidade**:  
+➡️ **Reserva Completa (E2E)**
+
+Os demais arquivos `.feature` funcionam como:
+
+- **Fixtures de teste**
+- **Documentação funcional**
+- **Base para testes manuais**
+- **Referência para futuras automações**
+
+Essa decisão considera:
+- instabilidades do ambiente
+- comportamento inconsistente de alguns componentes de UI
+- custo vs benefício da automação
+- boas práticas de QA em produtos reais
 
 ---
-## 🧠 Critérios de escolha dos cenários de teste (por ordem de criticidade)
 
-Os cenários de teste foram definidos com base em criticidade funcional, impacto no negócio e experiência do usuário, priorizando falhas que podem bloquear a reserva, gerar inconsistências operacionais ou causar abandono do fluxo.
+## 🧠 Critérios de escolha dos cenários (por criticidade)
 
-🔴 1. Regras de hóspedes (adultos obrigatórios)
+### 🔴 1. Regras de hóspedes (adulto obrigatório)
+Uma reserva não pode existir sem ao menos um adulto.
 
-Este é o ponto mais crítico do fluxo, pois uma reserva não pode existir sem ao menos um adulto.
+Cenários documentam:
+- bloqueio quando há apenas crianças
+- ajuste automático para 1 adulto
+- permissão correta de avanço
 
-Foi priorizado um cenário que valida:
+📄 `hospedes.feature`
 
-Bloqueio da reserva quando há apenas crianças
+---
 
-Permissão de avanço quando existe pelo menos um adulto
+### 🔴 2. Capacidade máxima dos quartos
+Os quartos possuem regras de ocupação mínima e máxima (minpax / maxpax), identificadas no HTML, mas não claramente expostas ao usuário.
 
-Esse tipo de regra é essencial para garantir a validade da hospedagem e evitar reservas inconsistentes.
+Cenários validam:
+- avanço indevido ao exceder capacidade
+- riscos operacionais e de cobrança
 
-Arquivo relacionado:
+📄 `capacidade-quarto.feature`
 
-hospedes.feature
+---
 
-🔴 2. Capacidade máxima dos quartos
+### 🔴 3. Consistência entre hóspedes solicitados e acomodados
+Após a seleção do quarto, o sistema apresenta diferentes resumos.
 
-Cada tipo de quarto possui limites mínimos e máximos de ocupação (minpax e maxpax), identificados no HTML, porém não exibidos claramente ao usuário.
+Cenários garantem:
+- coerência entre busca, acomodação e resumo
+- prevenção de inconsistências visuais e lógicas
 
-Foram criados cenários para validar se o sistema:
+📄 `consistencia-hospedes.feature`
 
-Bloqueia o avanço quando a capacidade é excedida
+---
 
-Permite avançar indevidamente (comportamento observado)
+### 🟠 4. Autenticação e cadastro
+Fluxos bloqueantes para finalização da reserva.
 
-Exibe ou não mensagens orientativas
+Cenários cobrem:
+- validações de campos
+- mensagens de erro
+- login e cadastro
 
-Mesmo quando o sistema permite avançar até etapas posteriores (login/pagamento), esse comportamento foi documentado como risco funcional.
+📄 `login.feature`  
+📄 `cadastro.feature`
 
-Arquivo relacionado:
+---
 
-capacidade-quarto.feature
+### 🟠 5. Pagamento e aceite de políticas
+Aspecto funcional e legal.
 
-🔴 3. Consistência entre hóspedes solicitados e acomodados
+Cenários documentam:
+- obrigatoriedade do aceite
+- validações de pagamento
+- reCAPTCHA
 
-Após selecionar um quarto, o sistema exibe dois resumos distintos:
+📄 `pagamento.feature`
 
-Hóspedes solicitados
+---
 
-Hóspedes acomodados
+### 🟡 6. Validação de período da reserva
+Cenários voltados à integridade das datas e UX do calendário.
 
-Esse cenário foi priorizado para garantir que:
+📄 `validacao_periodo_reserva.feature`
 
-As informações exibidas ao usuário sejam coerentes
+---
 
-Não haja divergência visual ou lógica entre os dados selecionados e os dados processados pelo sistema
+## 🚀 Automação Implementada (E2E)
 
-Inconsistências nesse ponto podem gerar erros de cobrança, dúvidas do usuário e falhas operacionais.
+### ✅ Fluxo automatizado
 
-Arquivo relacionado:
+A automação foi aplicada **exclusivamente** ao fluxo:
 
-consistencia-hospedes.feature
+📄 **`reserva-completa.feature`**
 
-🟠 4. Autenticação e cadastro obrigatórios
+Esse cenário cobre:
+- busca inicial
+- seleção de hóspedes
+- escolha de quarto
+- configuração de acomodação
+- dados dos hóspedes
+- dados de contato
+- pagamento
+- aceite de políticas
+- tentativa de finalização
 
-A autenticação é uma etapa bloqueante para finalização da reserva.
+Trata-se de um **E2E realista**, com:
+- waits defensivos
+- tratamento de instabilidades de UI
+- validações progressivas
+- foco em confiabilidade do teste
 
-Os cenários validam:
+---
 
-Redirecionamento correto para login/cadastro
+## 🤖 Tecnologias Utilizadas
 
-Validação de campos obrigatórios no cadastro
-
-Mensagens adequadas para credenciais inválidas
-
-Esses testes garantem que o sistema não permita avançar sem um usuário válido e que forneça feedback claro.
-
-Arquivos relacionados:
-
-login.feature
-
-cadastro.feature
-
-🟠 5. Aceite de termos e condições
-
-O aceite dos termos é uma exigência funcional e legal.
-
-Foi priorizado um cenário que garante que:
-
-O usuário não consiga continuar sem aceitar os termos
-
-A mensagem exibida seja clara e orientativa
-
-Arquivo relacionado:
-
-termos-e-condicoes.feature
-
-🟡 6. Validação de período de reserva
-
-Os cenários de período garantem que:
-
-Datas inválidas não sejam aceitas
-
-O sistema se comporte corretamente ao selecionar datas iguais ou períodos inconsistentes
-
-O fluxo siga corretamente após ajuste de datas
-
-Arquivo relacionado:
-
-validacao_periodo_reserva.feature
-
-🟡 7. Fluxo principal de reserva
-
-Por fim, foi criado um cenário de fluxo completo, simulando o comportamento real do usuário do início ao fim.
-
-Mesmo com limitações do ambiente de teste (ex.: falha no pagamento), esse cenário permite validar:
-
-Encadeamento das etapas
-
-Pontos de falha reais
-
-Estabilidade do fluxo principal
-
-Arquivo relacionado:
-
-reserva-completa.feature
+- **Playwright**
+- **Cucumber (BDD / Gherkin)**
+- **TypeScript**
+- **Page Object Model (POM)**
+- **Cucumber HTML Report**
+- **GitHub Actions (CI)**
 
 ---
 
 ## 📂 Estrutura do Projeto
 
-```text
+
 TESTES-DESBRAVADOR
-├── .github/workflows
-│   └── playwright.yml        # Pipeline de CI
-├── features                  # Cenários BDD (Gherkin)
+├── features                  # Cenários BDD (fixtures / documentação)
 │   ├── cadastro.feature
 │   ├── login.feature
 │   ├── hospedes.feature
 │   ├── capacidade-quarto.feature
 │   ├── consistencia-hospedes.feature
 │   ├── validacao_periodo_reserva.feature
-│   ├── termos-e-condicoes.feature
-│   └── reserva-completa.feature
-├── steps                     # Implementação dos steps (Cucumber)
+│   ├── pagamento.feature
+│   └── reserva-completa.feature   # ✅ Automatizado (E2E)
+├── steps                     # Steps do Cucumber
 ├── pages                     # Page Objects (POM)
-├── support                   # Hooks, locators, world, types
-│   ├── hooks.ts
-│   ├── locators.ts
-│   ├── world.ts
-│   └── types.d.ts
-├── reports
-│   └── cucumber-report.html  # Relatório de execução
-├── melhorias-sugeridas.md    # Melhorias de usabilidade e UX
-├── playwright.config.ts
-├── cucumber.js
-├── package.json
-├── tsconfig.json
+├── support                   # Hooks, world, locators
+├── reports                   # Relatórios
+├── melhorias-sugeridas.md    # Pontos de melhoria / UX
 └── README.md
-````
 
----
+📋 Melhorias Identificadas
 
-## 🧠 Estratégia de Testes
+As oportunidades de melhoria encontradas durante os testes estão documentadas em:
 
-Os cenários foram escritos priorizando:
+📄 melhorias-sugeridas.md
 
-* **Caminhos críticos** do negócio
-* **Validações obrigatórias** (ex.: adulto obrigatório, termos)
-* **Consistência de dados exibidos ao usuário**
-* **Regras implícitas identificadas no HTML/DOM**
-* Separação clara de responsabilidades entre:
+Incluem:
 
-  * Busca inicial
-  * Seleção de quarto
-  * Autenticação
-  * Reserva
+UX
 
-Sempre que possível, foram utilizados:
+mensagens de erro
 
-* `Background` para evitar repetição
-* `Scenario Outline` para validações em tabela
-* Linguagem clara e orientada ao comportamento do usuário
+consistência de dados
 
----
+regras não explícitas
 
-## 🤖 Automação
+comportamento inesperado de componentes
 
-* Framework: **Playwright**
-* BDD: **Cucumber (Gherkin)**
-* Linguagem: **TypeScript**
-* Arquitetura: **Page Object Model (POM)**
-* Relatórios: **Cucumber HTML Report**
-* CI: **GitHub Actions**
+▶️ Como Executar
 
-A automação foi aplicada principalmente para:
+Instalar dependências:
 
-* Fluxos críticos
-* Validações de regras
-* Demonstração de conhecimento técnico
-  Sem forçar a automação em pontos instáveis do ambiente.
-
----
-
-## 📋 Melhorias Identificadas
-
-Durante os testes exploratórios e automatizados, foram identificadas diversas oportunidades de melhoria, documentadas no arquivo:
-
-📄 **`melhorias-sugeridas.md`**
-
-Exemplos:
-
-* Preservar número de hóspedes ao alterar datas
-* Melhorar mensagens de indisponibilidade
-* Exibir capacidade mínima/máxima dos quartos
-* Melhorar visualização de imagens (zoom)
-* Ajustar responsividade para dispositivos móveis
-
-Esses pontos não impedem o uso do sistema, mas impactam diretamente a **experiência do usuário**.
-
----
-
-## 🚀 Como Executar o Projeto
-
-1. Instalar dependências:
-
-```bash
 npm install
-```
 
-2. Executar os testes:
 
-```bash
-npx playwright test
-```
+Executar automação E2E:
 
-3. Gerar relatório:
+npx cucumber-js --tags @e2e
 
-```bash
-npx cucumber-js
-```
 
-4. Abrir relatório:
+Abrir relatório:
+
+reports/cucumber-report.html
+
+✅ Considerações Finais
+
+Este projeto reflete uma atuação de QA focada em:
+
+entendimento do produto
+
+visão crítica de negócio
+
+qualidade acima de quantidade
+
+automação com propósito
+
+documentação clara e reutilizável
+
+A automação foi usada como ferramenta, não como fim.
+
+Obrigado pela oportunidade 🚀
 
 ```text
-reports/cucumber-report.html
-```
-
----
-
-## ✅ Considerações Finais
-
-Este projeto foi desenvolvido com foco não apenas em “testar”, mas em **entender o produto**, seus fluxos e impactos para o usuário final.
-
-O material entregue contempla:
-
-* Testes funcionais
-* Automação
-* Análise crítica
-* Documentação clara
-* Organização de código
-
-Obrigado pela oportunidade de participar do processo 🚀
-
-```

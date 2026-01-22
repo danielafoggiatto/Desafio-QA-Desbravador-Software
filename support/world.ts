@@ -1,35 +1,43 @@
 import { setWorldConstructor } from "@cucumber/cucumber";
-import { Browser, Page } from "playwright";
+import type { Browser, Page } from "playwright";
+
 import {
-  LoginPage,
-  CadastroPage,
-  ReservaPage,
-  QuartosPage,
-  TermosPage,
+  HomePage,
+  CalendarPage,
+  NumHospedesPage,
+  RoomSelectionPage,
+  CartPage,
+  GuestDetailsPage,
+  ContactPage,
+  PaymentPage,
+  ConfirmationPage,
 } from "../pages";
 
 export class CustomWorld {
   browser!: Browser;
   page!: Page;
   baseUrl!: string;
-  dialogText?: string | null;
 
-  // Page Objects
-  loginPage!: LoginPage;
-  cadastroPage!: CadastroPage;
-  reservaPage!: ReservaPage;
-  quartosPage!: QuartosPage;
-  termosPage!: TermosPage;
+  home!: HomePage;
+  calendar!: CalendarPage;
+  numHospedes!: NumHospedesPage;
+  roomSelection!: RoomSelectionPage;
+  cart!: CartPage;
+  guestDetails!: GuestDetailsPage;
+  contact!: ContactPage;
+  payment!: PaymentPage;
+  confirmation!: ConfirmationPage;
 
-  /**
-   * Inicializa page objects (chamado depois que page é setado)
-   */
   initializePages() {
-    this.loginPage = new LoginPage(this.page, this.baseUrl);
-    this.cadastroPage = new CadastroPage(this.page, this.baseUrl);
-    this.reservaPage = new ReservaPage(this.page, this.baseUrl);
-    this.quartosPage = new QuartosPage(this.page, this.baseUrl);
-    this.termosPage = new TermosPage(this.page, this.baseUrl);
+    this.home = new HomePage(this.page);
+    this.calendar = new CalendarPage(this.page);
+    this.numHospedes = new NumHospedesPage(this.page);
+    this.roomSelection = new RoomSelectionPage(this.page);
+    this.cart = new CartPage(this.page);
+    this.guestDetails = new GuestDetailsPage(this.page);
+    this.contact = new ContactPage(this.page);
+    this.payment = new PaymentPage(this.page);
+    this.confirmation = new ConfirmationPage(this.page);
   }
 }
 

@@ -1,90 +1,68 @@
-/**
- * Centralizador de locators para o POM
- * Agrupa todos os seletores por página/seção
- */
+export const CalendarLocators = {
+  calendarContainer: '.month-wrapper',
+  januaryMonth: '.month1',
+  februaryMonth: '.month2',
+  validDay: '.day.toMonth.valid',
+};
 
-export const LOCATORS = {
-  // ===== LOGIN PAGE =====
-  LOGIN: {
-    MODAL: '#jquery-msg-content',
-    BTN_ACESSAR_CADASTRO: 'text=Acessar meu cadastro',
-    FORM_AUTENTICA: '#form_autentica',
-    INPUT_USUARIO: '#usuario',
-    INPUT_SENHA: '#senha',
-    BTN_AUTENTICAR: 'input[type="button"][value="Autenticar (Acessar)"]',
-    USER_BOX: '#dados_usuario',
-    LINK_LOGOFF: 'text=Log-off',
-  },
+export const NumHospedesLocators = {
+  adultsInput: 'input[name="calendar-adults"]',
+  childrenButton: 'button.btn-children',
+  childrenMenuOpen: '.dropdown-menu.show',
+  childFreeInput: '#faixa1', 
+checkAvailabilityButton: 'button.btn-secondary:has-text("Verificar Disponibilidade")',
+};
 
-  // ===== CADASTRO PAGE =====
-  CADASTRO: {
-    FORM_CADASTRO: '#form_cadastro',
-    INPUT_PRIMEIRO_NOME: '#nmpessoafn',
-    INPUT_SOBRENOME: '#nmpessoasn',
-    INPUT_EMAIL: '#nmlogin',
-    INPUT_EMAIL_CONFIRMACAO: '#nmlogin1',
-    INPUT_SENHA: '#nmsenha',
-    INPUT_SENHA_CONFIRMACAO: '#nmsenha2',
-    BTN_SALVAR: '#button',
-    LINK_NAO_CADASTRADO: 'text=/não sou cadastrado/i',
-  },
+export const RoomSelectionLocators = {
+  roomCardByTitle: (roomName: string) =>
+    `xpath=//p[contains(@class,'room-title') and normalize-space()="${roomName}"]/ancestor::div[contains(@class,'sc-cZwWEx')][1]`,
+  addButtonInsideCard: 'button.btn-add:has-text("Adicionar")',
+  cartItemRoomByName: (roomName: string) =>
+    `p.cart-item-room:has-text("${roomName}")`,
+};
 
-  // ===== BUSCA/DATAS PAGE =====
-  DATAS: {
-    INPUT_DATA_INICIO: '#dtini, #data_ini, input[name="dtini"], input[name="data_ini"]',
-    INPUT_DATA_FIM: '#dtfim, #data_fim, input[name="dtfim"], input[name="data_fim"]',
-    SELECT_ADULTOS: '#adultos, select[name*="adult"], select[id*="adult"]',
-    SELECT_CRIANCAS: '#criancas, #free, select[name*="free"], select[id*="free"], select[name*="chd"]',
-    BTN_CONTINUAR_RESERVA: 'button:has-text("Continuar Reserva")',
-  },
+export const CartLocators = {
+  continueButton: '.cart-resume-next button',
+  roomTitle: '.cart-item-room',
+  totalValue: '.cart-resume-value',
+  summaryContainer: `.sc-jQHtVT:has-text("Resumo")`,
+  btnContinue: `.cart-resume-next button:has-text("Continuar")`,
+};
 
-  // ===== QUARTOS/TARIFAS PAGE =====
-  QUARTOS: {
-    LINHA_ST1: '#linx-ST1, #linha-ST1',
-    HIDDEN_MAXPAX_ST1: '#maxpax-ST1',
-    SELECT_ADULTOS_ST1: '#esc_adt-ST1',
-    SELECT_CRIANCAS_ST1: '#esc_chdfree-ST1',
-    BTN_COMPRA_ST1: '#bt_compra-ST1',
-    CONTAINER_PAGAR: '#bt_pagar',
-    BTN_PAGAR: '#bt_pagar button',
-    LISTA_QUARTOS: '#quartos-selecao-lista',
-    ITEM_QUARTO: '#quartos-selecao-lista li',
-  },
+export const GuestDetailsLocators = {
+  bedOptionByLabel: (bed: string) =>
+    `label.form-check-label:has-text("${bed}")`,
+  btnGuests: `button:has-text("Hóspedes")`,
+  modal: `.modal-content:has(.modal-title:has-text("Hóspedes"))`,
+  nameInputs: `.modal-content:has(.modal-title:has-text("Hóspedes")) input[type="text"]`,
+  btnSave: `button:has-text("Salvar")`,
+  arrivalTimeSelect: `#arrivalTime`,  
+  saveGuestsButton:
+    `.modal-content:has(.modal-title:has-text("Hóspedes")) button:has-text("Salvar")`,
+};
 
-  // ===== TERMOS E CONDIÇÕES PAGE =====
-  TERMOS: {
-    CHECKBOX_TERMOS: '#lido',
-    RESUMO_HOSPEDAGEM: '#resumo_hospedagem',
-    BTN_CONTINUAR_FINAL: 'button:has-text("Continuar Reserva")',
-  },
+export const ContactLocators = {
+  emailInput: 'input[name="email"]',
+};
 
-  // ===== VALIDAÇÃO PERÍODO =====
-  PERIODO: {
-    INPUT_CHECKIN: '#dtcheckin',
-    INPUT_CHECKOUT: '#dtcheckout',
-    SELECT_ADULTOS: '#adultos',
-  },
+export const PaymentLocators = {
+  firstNameInput: 'input[name="firstName"]',
+  lastNameInput: 'input[name="lastName"]',
+  documentTypeSelect: 'select[name="documentType"]',
+  documentInput: 'input[name="document"]',
+  paymentMethodByLabel: (metodo: string) =>
+  `label.form-check-label:has-text("${metodo}")`,
+  cardNumberInput: 'input[name="number"]',
+  cardNameInput: 'input[name="name"]',
+  cardExpiryInput: 'input[name="expiry"]',
+  cardCvcInput: 'input[name="cvc"]',
+  hotelPoliciesCheckboxLabel: '.form-check input[type="checkbox"]',
+  finishButton: 'button.btn-finish:has-text("Finalizar")',
+  recaptchaIframe: 'iframe[title="reCAPTCHA"]',
 
-  // ===== HOSPEDES PAGE =====
-  HOSPEDES: {
-    INPUT_CHECKIN: '#checkin, input[name="checkin"], input[id*="checkin"], input[id*="dtini"]',
-    INPUT_CHECKOUT: '#checkout, input[name="checkout"], input[id*="checkout"], input[id*="dtfim"]',
-    SELECT_ADULTOS: '#adultos, select[name*="adult"], select[id*="adult"], select[id*="adt"]',
-    SELECT_CRIANCAS_FREE: '#free, #criancas, select[id*="free"], select[name*="free"], select[id*="chd"]',
-  },
+};
 
-  // ===== VALIDAÇÃO PERÍODO RESERVA =====
-  VALIDACAO_PERIODO: {
-    INPUT_DATA_INICIO: '#data_ini, input[name="data_ini"]',
-    INPUT_DATA_FIM: '#data_fim, input[name="data_fim"]',
-    SELECT_ADULTOS: '#adultos',
-    BTN_CONTINUAR: 'button:has-text("Continuar Reserva")',
-  },
-
-  // ===== MENSAGENS E ALERTAS =====
-  MESSAGES: {
-    BODY_TEXT: 'body',
-    MSG_ERRO: 'text=/erro|invalido|obrigat|não/i',
-    MSG_SUCESSO: 'text=/sucesso|confirmado/i',
-  },
+export const ConfirmationLocators = {
+  successMessage: 'p:has-text("Sua reserva está efetuada!")',
+  locatorText: 'p.locator',
 };

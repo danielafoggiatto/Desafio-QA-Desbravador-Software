@@ -1,22 +1,37 @@
-@integration @api @hybrid
-Feature: Integração HTTP (HTML) e consistência UI x Backend - Reservas Online
+Feature: Teste de criação de reservas via API
+  Como consumidor da API de reservas
+  Quero validar que posso criar reservas corretamente
+  Para garantir que os dados de disponibilidade e regras do hotel sejam respeitados
 
-  # O sistema usa XHR que retorna fragmentos HTML (text/html).
-  # Objetivo: validar estabilidade do endpoint e consistência do carregamento na UI.
+  Scenario: Consultar disponibilidade para 1 adulto
+    Given que tenho um token de autenticação válido
+    And envio uma requisição POST para "/reservas/disponibilidade" com:
+      | checkin     | checkout    | adultos | criancas |
+      | 2026-02-01  | 2026-02-04  | 1       | 0        |
+    When recebo a resposta
+    Then a resposta deve ter status 200
+    And "wsrolRS.status.resultado" deve ser 1
+    And "wsrolRS.status.code" deve ser 0
+    And os quartos "ST1", "ST2" e "EX1" devem estar presentes em "wsrolRS.disponibilidadeRS.disponibilidade.result"
+    And "ST1.diaria" deve conter os valores para "01/02/2026" até "04/02/2026"
+    And "ST1.minimo" deve ser 6
 
-  Background:
-    Given que estou na etapa de escolha de tarifa/quarto
+  Scenario: Tentar reservar com hóspedes acima da capacidade
+    Given que tenho um token de autenticação válido
+    And envio uma requisição POST para "/reservas" com:
+      | checkin     | checkout    | adultos | criancas | quarto |
+      | 2026-02-01  | 2026-02-04  | 5       | 2        | ST1    |
+    When recebo a resposta
+    Then a resposta deve ter status 400
+    And a mensagem de erro deve indicar "ocupação máxima excedida"
 
-  @api @smoke
-  Scenario: API HTML responde com detalhes do quarto (page_show.php - ST1)
-    When faço um GET em "page_show.php" para o tipo "ST1"
-    Then a resposta deve retornar status 200
-    And o header "content-type" deve conter "text/html"
-    And o corpo deve conter ">STANDARD ST1</h4>"
-    And o corpo deve conter "ativaGaleria();"
-
-  @hybrid @ui
-  Scenario: UI carrega detalhes do quarto via backend (page_show.php - ST1)
-    When seleciono o quarto "STANDARD ST1" na interface
-    Then deve ocorrer uma requisição para "page_show.php" do tipo "ST1"
-    And a UI deve exibir o título do quarto "STANDARD ST1"
+  Scenario: Criar reserva válida
+    Given que tenho um token de autenticação válido
+    And envio uma requisição POST para "/reservas" com:
+      | checkin     | checkout    | adultos | criancas | quarto |
+      | 2026-02-01  | 2026-02-04  | 1       | 0        | ST1    |
+    When recebo a resposta
+    Then a resposta deve ter status 201
+    And o corpo da resposta deve conter:
+      | quarto | checkin     | checkout    | adultos | criancas |
+      | ST1    | 2026-02-01  | 2026-02-04  | 1       | 0        |

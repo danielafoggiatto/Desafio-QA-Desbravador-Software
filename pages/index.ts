@@ -1,6 +1,10 @@
-export { BasePage } from './BasePage';
-export { LoginPage } from './LoginPage';
-export { CadastroPage } from './CartPage';
-export { ReservaPage } from './HomePage';
-export { QuartosPage } from './CheckoutPage';
-export { TermosPage } from './TermosPage';
+export { default as BasePage } from "./BasePage";
+export { default as HomePage } from "./HomePage";
+export { default as CalendarPage } from "./CalendarPage";
+export { default as NumHospedesPage } from "./NumHospedesPage";
+export { default as RoomSelectionPage } from "./RoomSelectionPage";
+export { default as CartPage } from "./CartPage";
+export { default as GuestDetailsPage } from "./GuestDetailsPage";
+export { default as ContactPage } from "./ContactPage";
+export { default as PaymentPage } from "./PaymentPage";
+export { default as ConfirmationPage } from "./ConfirmationPage";

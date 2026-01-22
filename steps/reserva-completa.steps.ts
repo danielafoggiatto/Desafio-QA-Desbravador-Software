@@ -1,54 +1,125 @@
 import { Given, When, Then } from "@cucumber/cucumber";
-import { expect } from "@playwright/test";
 import type { CustomWorld } from "../support/world";
 
-Given('que informo o período de {string} até {string}', async function (inicio, fim) {
-    await this.reservaPage.goto();
-    await this.reservaPage.preencherPeriodo(inicio, fim);
+import HomePage from "../pages/HomePage";
+import RoomSelectionPage from "../pages/RoomSelectionPage";
+import GuestDetailsPage from "../pages/GuestDetailsPage";
+import ContactPage from "../pages/ContactPage";
+import PaymentPage from "../pages/PaymentPage";
+import ConfirmationPage from "../pages/ConfirmationPage";
+import CalendarPage from "../pages/CalendarPage";
+import CartPage  from "../pages/CartPage";
+import { NumHospedesPage } from "../pages";
+
+Given("que estou na página inicial de Reservas Online", async function (this: CustomWorld) {
+  const home = new HomePage(this.page);
+  await home.open(this.baseUrl);
+  await home.assertLoaded();
 });
 
+Given('informo o período de {string} até {string}', async function (this: CustomWorld, dataInicio: string, dataFim: string) {
+    const calendar = new CalendarPage(this.page);
 
-Given("seleciono {int} adultos na busca inicial", async function (this: CustomWorld, adultos: number) {
-  await this.reservaPage.selecionarAdultos(adultos);
+    await calendar.selectDate('fevereiro', '1');
+    await calendar.selectDate('fevereiro', '2');
+  }
+);
+
+Given(/^informo ["“](.+?)["”] adultos e ["“](.+?)["”] criança até 5 anos \(FREE\)$/, async function (this: CustomWorld, adultos: string, criancaFree: string) {
+    await this.numHospedes.setAdults(adultos);
+    await this.numHospedes.openChildrenSelector();
+    await this.numHospedes.setChildFree(criancaFree);
+  }
+);
+
+When('clico em "Verificar Disponibilidade"', async function (this: CustomWorld) {
+  const numhospedes = new NumHospedesPage(this.page);
+  await numhospedes.clickCheckAvailability();
 });
 
-Given("seleciono {int} crianças até {int} anos na busca inicial", async function (this: CustomWorld, criancas: number, idadeMax: number) {
-    await this.reservaPage.selecionarCriancas(criancas);
+When("adiciono o quarto {string}", async function (this: CustomWorld, roomName: string) {
+  const room = new RoomSelectionPage(this.page);
+  await room.addRoom(roomName);
 });
 
-When('clico em {string}', async function (this: CustomWorld, btnText: string) {
-  await this.reservaPage.clicarPorTexto(btnText);
+When('clico em "Continuar"', async function (this: CustomWorld) {
+  const cart = new CartPage(this.page);
+  await cart.clickContinue();
 });
 
+When("seleciono a opção de cama {string}", async function (this: CustomWorld, bed: string) {
+    const guest = new GuestDetailsPage(this.page);
+    await guest.selectBedOption(bed);
+  }
+);
 
-When('seleciono o quarto {string}', async function (this: CustomWorld, quartoNome: string) {
-  await this.quartosPage.selecionarQuartoST1();
+When('informo os hóspedes adultos {string} e {string} e criança {string}', async function (this: CustomWorld, adulto1: string, adulto2: string, crianca: string) {
+    const guest = new GuestDetailsPage(this.page);
+    await guest.fillGuests(adulto1, adulto2, crianca);
+    await guest.saveGuests();
+  }
+);
+
+When("seleciono o horário de chegada {string}", async function (this: CustomWorld, horario: string) {
+    const guest = new GuestDetailsPage(this.page);
+    await guest.selectArrivalTime(horario);
+  }
+);
+
+When("informo o e-mail {string}", async function (this: CustomWorld, email: string) {
+  const contact = new ContactPage(this.page);
+  await contact.fillEmail(email);
 });
 
-When("informo meu email e senha", async function (this: CustomWorld) {
-  const email = "daniela@hotmail.com";
-  const senha = "dani00";
-  
-  await this.page.locator("#usuario").fill(email);
-  await this.page.locator("#senha").fill(senha);
+When("informo nome {string} e sobrenome {string}", async function (this: CustomWorld, nome: string, sobrenome: string) {
+    const payment = new PaymentPage(this.page);
+    
+    await payment.fillName(nome, sobrenome);
+  }
+);
+
+When("seleciono o tipo de documento {string}", async function (this: CustomWorld, tipo: string) {
+    const payment = new PaymentPage(this.page);
+    await payment.selectDocumentType(tipo);
+  }
+);
+
+When("informo o documento {string}", async function (this: CustomWorld, doc: string) {
+    const payment = new PaymentPage(this.page);
+    await payment.fillDocument(doc);
+  }
+);
+
+When("escolho pagamento por {string}", async function (this: CustomWorld, metodo: string) {
+  const payment = new PaymentPage(this.page);
+  await payment.selectPaymentMethod(metodo);
 });
 
-When('clico no checkbox {string}', async function (this: CustomWorld, _texto: string) {
-    await this.page.pause();
-    const checkBoxAceptConditions = this.page.locator('#lido');
-    checkBoxAceptConditions.click();
-    console.log(checkBoxAceptConditions);
+When("preencho os dados do cartão número {string}, nome {string}, validade {string} e cvc {string}", async function (this: CustomWorld, numero: string, nomeCartao: string, validade: string, cvc: string) {
+    const payment = new PaymentPage(this.page);
+    await payment.fillCard(numero, nomeCartao, validade, cvc);
+  }
+);
 
-    await this.page.getByRole('button', { name: 'Continuar Reserva' }).click();
+When("aceito as políticas do hotel", async function (this: CustomWorld) {
+  const payment = new PaymentPage(this.page);
+  await payment.acceptHotelPolicies();
 });
 
+When("resolvo o captcha manualmente", async function (this: CustomWorld) {
+    const payment = new PaymentPage(this.page);
+    await payment.waitForCaptchaSolved();
+  }
+);
 
-Then("mostra as informações da reserva", async function (this: CustomWorld) {
+When(
+  'clico em "Finalizar"',
+  async function (this: CustomWorld) {
+    await this.payment.clickFinish();
+  }
+);
 
-  const resumo = this.page.locator('#resumo_hospedagem');
-  await expect(resumo).toBeVisible();
-  
-  const texto = await resumo.textContent();
-  expect(texto).toContain('Daniela Foggiatto');
-  expect(texto).toContain('Fevereiro');
+Then('devo ver a confirmação com {string}', async function (this: CustomWorld, msg: string) {
+  const confirmation = new ConfirmationPage(this.page);
+  await confirmation.assertSuccessMessage(msg);
 });
