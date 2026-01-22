@@ -168,7 +168,7 @@ npx cucumber-js --tags @e2e
 
 ### Abrir relatório
 
-reports/cucumber-report.html ou GitHubPages
+reports/cucumber-report.html ou GitHubPages (https://danielafoggiatto.github.io/Desafio-QA-Desbravador-Software/)
 
 
 ### ✅ Considerações Finais
