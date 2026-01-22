@@ -152,28 +152,6 @@ Trata-se de um **E2E realista**, com:
 - **Cucumber HTML Report**
 - **GitHub Actions (CI)**
 
----
-
-## 📂 Estrutura do Projeto
-
-
-TESTES-DESBRAVADOR
-├── features                  # Cenários BDD (fixtures / documentação)
-│   ├── cadastro.feature
-│   ├── login.feature
-│   ├── hospedes.feature
-│   ├── capacidade-quarto.feature
-│   ├── consistencia-hospedes.feature
-│   ├── validacao_periodo_reserva.feature
-│   ├── pagamento.feature
-│   └── reserva-completa.feature   # ✅ Automatizado (E2E)
-├── steps                     # Steps do Cucumber
-├── pages                     # Page Objects (POM)
-├── support                   # Hooks, world, locators
-├── reports                   # Relatórios
-├── melhorias-sugeridas.md    # Pontos de melhoria / UX
-└── README.md
-
 📋 Melhorias Identificadas
 
 As oportunidades de melhoria encontradas durante os testes estão documentadas em:
