@@ -7,7 +7,7 @@ O projeto foi desenvolvido com uma abordagem **realista de Qualidade de Software
 - entendimento das regras de negócio
 - identificação de riscos
 - documentação clara em BDD
-- automação apenas onde há ganho real de valor
+- automação no cenário completo de reserva
 
 ---
 
@@ -22,16 +22,6 @@ Demonstrar competências em QA que vão além da automação, incluindo:
 - Uso de **Playwright + Cucumber + TypeScript**
 - Organização em **Page Object Model (POM)**
 - Visão crítica de **UX e usabilidade**
-
----
-
-## 🧪 Estratégia Adotada
-
-### 📌 Importante
-> **Nem todos os cenários foram automatizados propositalmente.**
-
-A automação foi aplicada **somente ao fluxo de maior valor e complexidade**:  
-➡️ **Reserva Completa (E2E)**
 
 ---
 
@@ -119,14 +109,16 @@ Esse cenário cobre:
 - dados dos hóspedes
 - dados de contato
 - pagamento
-- aceite de políticas
-- tentativa de finalização
+- aceite de política
+- aceite de captcha manualmente com pause () - Recomenda-se não automatizar o 'Não sou um robô'
+- finalização 
 
 Trata-se de um **E2E realista**, com:
 - waits defensivos
 - tratamento de instabilidades de UI
 - validações progressivas
 - foco em confiabilidade do teste
+- aplicação de lógica de programação para locators confiáveis e esperas inteligentes
 
 ---
 

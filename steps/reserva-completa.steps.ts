@@ -21,7 +21,7 @@ Given('informo o período de {string} até {string}', async function (this: Cust
     const calendar = new CalendarPage(this.page);
 
     await calendar.selectDate('fevereiro', '1');
-    await calendar.selectDate('fevereiro', '2');
+    await calendar.selectDate('fevereiro', '4');
   }
 );
 
